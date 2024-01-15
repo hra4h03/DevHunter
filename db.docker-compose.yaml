@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  database:
+    image: mysql:8.2.0@sha256:28a16e31b140d750048cd5fadcaed22ac08d0eeb18567f79f822aee1f237b43c
+    container_name: dev-hunter-database.dev
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - database-data.dev:/var/lib/mysql
+    logging:
+      driver: json-file
+
+volumes:
+  database-data.dev:

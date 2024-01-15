@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  server:
+    build:
+      context: ./apps/server
+      dockerfile: ./Dockerfile.dev
+    container_name: dev-hunter-server.dev
+    restart: unless-stopped
+    environment:
+      DB_DATABASE: ${DB_DATABASE}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_HOST: database
+    logging:
+      driver: json-file
+    ports:
+      - 3000:3000
+    depends_on:
+      - database
+    volumes:
+      - ./apps/server:/app
+      - /app/node_modules
+
+  client:
+    build:
+      context: ./apps/client
+      dockerfile: ./Dockerfile.dev
+    container_name: dev-hunter-client.dev
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    ports:
+      - 8000:8000
+    logging:
+      driver: json-file
+    volumes:
+      - ./apps/client:/app
+      - /app/node_modules
+
+  database:
+    image: mysql:8.2.0@sha256:28a16e31b140d750048cd5fadcaed22ac08d0eeb18567f79f822aee1f237b43c
+    container_name: dev-hunter-database.dev
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - database-data.dev:/var/lib/mysql
+    logging:
+      driver: json-file
+
+volumes:
+  database-data.dev:
