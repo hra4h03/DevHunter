@@ -1,13 +1,27 @@
-import { AppBar, Button, Toolbar } from '@mui/material';
+import { EngineerService } from '@api/services';
+import { Box, Button } from '@mui/material';
+import { useMutation } from 'react-query';
+import { toast } from 'react-toastify';
 
 export function Navbar() {
+    const generateEngineers = useMutation(EngineerService.generateEngineers, {
+        onSuccess() {
+            toast.success('Engineers generated!');
+        },
+        onError() {
+            toast.error('Failed to generate engineers!');
+        },
+    });
+
     return (
-        <AppBar position="fixed" variant="elevation" sx={{ bgcolor: 'transparent', boxShadow: 'none' }}>
-            <Toolbar>
-                <img src="/DevHunter.svg" alt="DevHunter" />
-                <div style={{ flexGrow: 1 }} />
-                <Button variant="contained">Generate new candidate</Button>
-            </Toolbar>
-        </AppBar>
+        <Box display="flex" justifyContent={'space-between'} my={2}>
+            <img src="/DevHunter.svg" alt="DevHunter" />
+            <Button
+                variant="contained"
+                onClick={() => generateEngineers.mutate()}
+            >
+                Generate new candidate
+            </Button>
+        </Box>
     );
 }

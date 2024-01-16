@@ -1,15 +1,22 @@
 import React from 'react';
-import { QueryClient, QueryClientProvider as RQQueryClientProvider } from 'react-query';
+import {
+    QueryClient,
+    QueryClientProvider as RQQueryClientProvider,
+} from 'react-query';
 
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
-            staleTime: 4000,
+            staleTime: 0,
             refetchOnWindowFocus: false,
         },
     },
 });
 
 export const QueryClientProvider = ({ children }: React.PropsWithChildren) => {
-    return <RQQueryClientProvider client={queryClient}>{children}</RQQueryClientProvider>;
+    return (
+        <RQQueryClientProvider client={queryClient}>
+            {children}
+        </RQQueryClientProvider>
+    );
 };

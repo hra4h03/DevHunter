@@ -3,18 +3,22 @@ import { HttpClient } from '@api/services/HttpClient';
 
 export class EngineerService {
     static async getTechLanguages() {
-        return await HttpClient.get<Array<TechLanguageModel>>(`/engineer/tech-language`);
+        const result = await HttpClient.get<Array<TechLanguageModel>>(`/engineer/tech-language`);
+        return result.data;
     }
 
     static async getPositions() {
-        return await HttpClient.get<Array<PositionModel>>(`/engineer/position`);
+        const result = await HttpClient.get<Array<PositionModel>>(`/engineer/position`);
+        return result.data;
     }
 
     static async getExperiences() {
-        return await HttpClient.get<Array<ExperienceModel>>(`/engineer/experience`);
+        const result = await HttpClient.get<Array<ExperienceModel>>(`/engineer/experience`);
+        return result.data;
     }
 
     static async generateEngineers() {
-        return await HttpClient.post<boolean>(`/engineer/generate`);
+        const result = await HttpClient.post<boolean>(`/engineer/generate`);
+        return result.data;
     }
 }
