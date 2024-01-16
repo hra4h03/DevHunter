@@ -10,10 +10,6 @@ export function useSocket() {
             const socket = io(API_URL);
             socketRef.current = socket;
         }
-
-        return () => {
-            socketRef.current?.disconnect();
-        };
     }, []);
 
     return socketRef.current;

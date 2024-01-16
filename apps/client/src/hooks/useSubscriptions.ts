@@ -1,6 +1,6 @@
 import { SubscriptionModel } from '@api/models';
 import { SubscriptionStorageService } from '@api/services';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 export function useSubscriptions() {
@@ -15,6 +15,12 @@ export function useSubscriptions() {
         SubscriptionStorageService.add(subscription);
         toast.success('Subscription added successfully');
     };
+
+    useEffect(() => {
+        if (subscriptions.length === 1) {
+            setActiveSubscription(subscriptions[0]);
+        }
+    }, [subscriptions]);
 
     return {
         subscriptions,
