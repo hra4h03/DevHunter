@@ -1,12 +1,11 @@
 import { config } from 'dotenv';
 import { join } from 'path';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { SeederOptions } from 'typeorm-extension';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
-config();
+config({ path: join(process.cwd(), '../../.env') });
 
-export const dataSourceOptions: DataSourceOptions & SeederOptions = {
+export const dataSourceOptions: DataSourceOptions = {
     type: 'mysql',
     host: process.env.DB_HOST,
     port: +process.env.DB_PORT,
@@ -15,10 +14,6 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
     database: process.env.DB_DATABASE,
     entities: [join(process.cwd(), './dist/**/*.entity.js')],
     logging: 'all',
-    seeds: [
-        join(process.cwd(), './src/db/seeding/**/*.seed.ts'),
-        join(process.cwd(), './dist/db/seeding/**/*.seed.js'),
-    ],
     migrationsTableName: 'migrations',
     migrations: [join(process.cwd(), './dist/db/migrations/*.js')],
     namingStrategy: new SnakeNamingStrategy(),

@@ -4,6 +4,7 @@ import React from 'react';
 interface SelectProps<T> {
     label: string;
     options: T[];
+    error?: string;
     getOptionLabel: (option: T) => string;
 }
 
@@ -11,6 +12,7 @@ export function Select<T>({
     label,
     options,
     getOptionLabel,
+    error,
     ...props
 }: SelectProps<T> &
     Partial<
@@ -24,7 +26,19 @@ export function Select<T>({
                 multiple
                 options={options}
                 renderInput={(params) => (
-                    <TextField {...params} placeholder="Select" />
+                    <TextField
+                        {...params}
+                        placeholder="Select"
+                        {...(error
+                            ? {
+                                  helperText: (
+                                      <Typography variant="caption" color="red">
+                                          {error}
+                                      </Typography>
+                                  ),
+                              }
+                            : {})}
+                    />
                 )}
                 disableCloseOnSelect
                 getOptionLabel={(option) => getOptionLabel(option as T)}

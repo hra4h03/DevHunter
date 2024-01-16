@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class SeedInitialData1705301825286 implements MigrationInterface {
+export class SeedInitialData1705304824334 implements MigrationInterface {
     public readonly experiences = [
         'Junior',
         'Mid Level',

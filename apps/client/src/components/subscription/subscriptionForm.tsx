@@ -5,10 +5,12 @@ import {
     TechLanguageModel,
 } from '@api/models';
 import { Select } from '@common/select';
+import { MESSAGES } from '@configs/app.messages';
 import { useEngineerMetadata } from '@hooks/useEngineerMetadata';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { nanoid } from 'nanoid';
+import * as yup from 'yup';
 
 interface SubscriptionFormProps {
     onSubmit: (subscription: SubscriptionModel) => void;
@@ -22,6 +24,34 @@ interface Inputs {
     positions: PositionModel[];
 }
 
+const nameAndIdSchema = yup.object({
+    name: yup.string().required(),
+    id: yup.number().required(),
+});
+
+const validationSchema = yup.object({
+    minSalary: yup
+        .number()
+        .lessThan(
+            yup.ref('maxSalary'),
+            MESSAGES['minSalary.smaller.than.maxSalary'],
+        )
+        .required(MESSAGES['field.is.required']),
+    maxSalary: yup.number().required(MESSAGES['field.is.required']),
+    experiences: yup
+        .array()
+        .min(1, MESSAGES['field.is.required'])
+        .of(nameAndIdSchema),
+    techLanguages: yup
+        .array()
+        .min(1, MESSAGES['field.is.required'])
+        .of(nameAndIdSchema),
+    positions: yup
+        .array()
+        .min(1, MESSAGES['field.is.required'])
+        .of(nameAndIdSchema),
+});
+
 export function SubscriptionForm(props: SubscriptionFormProps) {
     const [exprienceQuery, positionsQuery, techLanguageQuery] =
         useEngineerMetadata();
@@ -32,6 +62,7 @@ export function SubscriptionForm(props: SubscriptionFormProps) {
             techLanguages: [],
             positions: [],
         },
+        validationSchema,
         onSubmit(data) {
             props.onSubmit({
                 uuid: nanoid(),
@@ -51,6 +82,7 @@ export function SubscriptionForm(props: SubscriptionFormProps) {
                 label={'Tech Languages'}
                 options={techLanguageQuery.data!}
                 getOptionLabel={(x) => x.name}
+                error={formik.errors.techLanguages}
                 onChange={(_e, value) =>
                     formik.setFieldValue('techLanguages', value)
                 }
@@ -61,6 +93,7 @@ export function SubscriptionForm(props: SubscriptionFormProps) {
                 label={'Experience'}
                 options={exprienceQuery.data!}
                 getOptionLabel={(x) => x.name}
+                error={formik.errors.experiences}
                 onChange={(_e, value) =>
                     formik.setFieldValue('experiences', value)
                 }
@@ -89,6 +122,11 @@ export function SubscriptionForm(props: SubscriptionFormProps) {
                         onChange={formik.handleChange}
                     />
                 </Box>
+                {formik.errors.minSalary && (
+                    <Typography ml={1.5} variant="caption" color={'red'}>
+                        {formik.errors.minSalary}
+                    </Typography>
+                )}
             </Box>
 
             <Select
@@ -96,6 +134,7 @@ export function SubscriptionForm(props: SubscriptionFormProps) {
                 label={'Position'}
                 options={positionsQuery.data!}
                 getOptionLabel={(x) => x.name}
+                error={formik.errors.positions}
                 onChange={(_e, value) =>
                     formik.setFieldValue('positions', value)
                 }
