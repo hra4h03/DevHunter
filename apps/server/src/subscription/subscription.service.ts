@@ -39,12 +39,18 @@ export class SubscriptionService {
 
         this.subscriptions.forEach((subscriptions, clientId) => {
             const matchedEngineers = engineers.filter((engineer) => {
-                return subscriptions.some((subscription) =>
-                    this.isMatchedEngineer(engineer, subscription),
-                );
+                return subscriptions.some((subscription) => {
+                    const isMatched = this.isMatchedEngineer(
+                        engineer,
+                        subscription,
+                    );
+                    return isMatched;
+                });
             });
 
-            result.set(clientId, matchedEngineers);
+            if (matchedEngineers.length > 0) {
+                result.set(clientId, matchedEngineers);
+            }
         });
 
         return result;
@@ -83,9 +89,9 @@ export class SubscriptionService {
         }
 
         if (
-            subscription.techLangugaeIds.length !== 0 &&
+            subscription.techLanguageIds.length !== 0 &&
             !engineer.techLanguages.every((techLanguage) =>
-                subscription.techLangugaeIds.includes(techLanguage.id),
+                subscription.techLanguageIds.includes(techLanguage.id),
             )
         ) {
             return false;
@@ -109,7 +115,7 @@ export class SubscriptionService {
                 },
 
                 techLanguages: {
-                    id: In(subscriptionDto.techLangugaeIds),
+                    id: In(subscriptionDto.techLanguageIds),
                 },
             },
         });

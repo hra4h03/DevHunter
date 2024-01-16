@@ -14,7 +14,7 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     entities: [join(process.cwd(), './dist/**/*.entity.js')],
-    logging: true,
+    logging: 'all',
     seeds: [
         join(process.cwd(), './src/db/seeding/**/*.seed.ts'),
         join(process.cwd(), './dist/db/seeding/**/*.seed.js'),

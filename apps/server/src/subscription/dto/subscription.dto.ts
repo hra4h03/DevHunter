@@ -1,5 +1,5 @@
 export class SubscriptionDto {
-    public techLangugaeIds: number[] = [];
+    public techLanguageIds: number[] = [];
     public experienceIds: number[] = [];
     public minSalary?: number;
     public maxSalary?: number;

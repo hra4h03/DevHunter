@@ -37,7 +37,7 @@ export class SubscriptionGateway {
             subscriptionDto,
         );
 
-        client.send('engineers', EngineerDto.fromEntities(engineers));
+        client.emit('engineers', EngineerDto.fromEntities(engineers));
     }
 
     @OnEvent('engineers.generated')
