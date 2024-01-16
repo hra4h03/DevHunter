@@ -12,16 +12,19 @@ $ cd ./apps/client && pnpm install
 $ cd ./apps/server && pnpm install
 ```
 
-## Running the app in the host
+## Running application
 
+Before interacting with the app, make shure to run the migrations.
+See [Running Miggrations](#running-miggrations) section.
+
+### Option 1: Running the app in the host machine
 ```bash
 # development
 $ cd ./apps/client && pnpm start:dev
 $ cd ./apps/server && pnpm start:dev
 ```
 
-## Running the app in the container
-
+### Option 2: Running the app in the container
 ```bash
 # development
 $ docker-compose -f docker-compose.dev.yaml up -d
