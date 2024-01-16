@@ -12,11 +12,16 @@
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.4",
     "@mui/material": "^5.15.4",
     "axios": "^1.6.5",
+    "formik": "^2.4.5",
+    "nanoid": "^5.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-query": "^3.39.3"
+    "react-query": "^3.39.3",
+    "react-toastify": "^10.0.1",
+    "socket.io-client": "^4.7.4"
   },
   "devDependencies": {
     "@types/node": "^20.11.1",
