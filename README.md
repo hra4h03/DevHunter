@@ -5,6 +5,8 @@ Dev Hunter is a platform for companies to find developers.
 
 ## Installation
 
+Before running the app, you should install dependencies, rename `.env.example` to `.env` and fill the variables.
+
 ```bash
 $ cd ./apps/client && pnpm install
 $ cd ./apps/server && pnpm install
